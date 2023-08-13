@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "k_playground_gpt/version"
+require_relative 'k_playground_gpt/version'
 
 module KPlaygroundGpt
   class Error < StandardError; end
