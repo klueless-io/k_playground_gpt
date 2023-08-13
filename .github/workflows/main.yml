@@ -58,9 +58,9 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Install semantic-release dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      # - name: Install semantic-release dependencies
+      #   if: steps.cache.outputs.cache-hit != 'true'
+      #   run: npm ci
 
       #   # SEE MORE: https://github.com/semantic-release/semantic-release/issues/753
       # - name: Run SemVer
