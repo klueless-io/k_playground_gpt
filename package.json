@@ -6,9 +6,9 @@
     "release": "semantic-release"
   },
   "devDependencies": {
-    "@klueless-js/semantic-release-rubygem": "github:klueless-js/semantic-release-rubygem#10523b9",
-    "@semantic-release/changelog": "^6.0.3",
+    "semantic-release": "^19.0.2",
+    "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "semantic-release": "^21.0.7"
+    "@klueless-js/semantic-release-rubygem": "github:klueless-js/semantic-release-rubygem"
   }
 }
