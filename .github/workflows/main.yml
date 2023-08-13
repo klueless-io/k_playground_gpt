@@ -63,5 +63,5 @@ jobs:
       - name: Run SemVer
         run: npm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.FUCKIT }}
           GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
