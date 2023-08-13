@@ -62,9 +62,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
-        # SEE MORE: https://github.com/semantic-release/semantic-release/issues/753
-      - name: Run SemVer
-        run: npm run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
+      #   # SEE MORE: https://github.com/semantic-release/semantic-release/issues/753
+      # - name: Run SemVer
+      #   run: npm run release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
