@@ -103,7 +103,7 @@ KManager.action :bootstrap do
         run_command("git add .; git commit -m 'chore: #{self.options.description.downcase}'; git push")
       end
       .blueprint(
-        active: false,
+        active: true,
         name: :ci_cd,
         description: 'github actions (CI/CD)',
         on_exist: :write) do
