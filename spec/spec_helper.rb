@@ -6,6 +6,8 @@ require 'simplecov'
 
 SimpleCov.start
 
+require 'clipboard'
+require 'table_print'
 require 'k_playground_gpt'
 
 RSpec.configure do |config|

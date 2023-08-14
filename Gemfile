@@ -15,6 +15,9 @@ group :development, :test do
   gem 'rubocop'
   gem 'rubocop-rake', require: false
   gem 'rubocop-rspec', require: false
+
+  gem 'clipboard', '~> 1.3.0'
+  gem 'table_print', '~> 1.5.7'
 end
 
 group :test do

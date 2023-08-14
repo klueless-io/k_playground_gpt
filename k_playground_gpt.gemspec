@@ -40,6 +40,5 @@ Gem::Specification.new do |spec|
   # spec.extensions    = ['ext/k_playground_gpt/extconf.rb']
 
   spec.add_dependency 'k_log', '~> 0'
-  # spec.add_dependency 'k_type', '~> 0'
-  # spec.add_dependency 'k_util', '~> 0'
+  spec.add_dependency 'ruby-openai', '~> 4.3.0'
 end
