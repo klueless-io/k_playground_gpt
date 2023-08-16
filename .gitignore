@@ -45,3 +45,5 @@ Gemfile.lock
 
 # ByeBug history
 .byebug_history
+
+.env.development

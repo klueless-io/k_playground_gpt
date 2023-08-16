@@ -10,6 +10,10 @@ require 'clipboard'
 require 'table_print'
 require 'k_playground_gpt'
 
+require 'dotenv'
+ENV.delete('OPENAI_API_KEY')
+Dotenv.load('.env.development')
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'

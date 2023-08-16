@@ -18,6 +18,7 @@ group :development, :test do
 
   gem 'clipboard', '~> 1.3.0'
   gem 'table_print', '~> 1.5.7'
+  gem 'dotenv'
 end
 
 group :test do
