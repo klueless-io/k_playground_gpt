@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Endpoints', :openai do
-  OpenAI.configure do |config|
-    config.access_token = ENV.fetch('OPENAI_API_KEY')
-  end
+RSpec.describe 'Endpoints' do
+  context 'when using models', :openai do
+    OpenAI.configure do |config|
+      config.access_token = ENV.fetch('OPENAI_API_KEY')
+    end
 
-  let(:client) { OpenAI::Client.new }
+    let(:client) { OpenAI::Client.new }
 
-  context 'when using models' do
     describe '#list' do
       it 'returns a list of models (JSON)' do
         response = client.models.list
