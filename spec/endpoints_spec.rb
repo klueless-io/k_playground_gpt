@@ -20,5 +20,15 @@ RSpec.describe 'Endpoints', :openai do
         tp response.sort_by { |entry| entry[:id] }
       end
     end
+
+    describe '#retrieve' do
+      let(:model_id) { 'gpt-3.5-turbo' }
+
+      it 'returns a model (JSON)' do
+        response = client.models.retrieve(id: model_id)
+
+        puts JSON.pretty_generate(response)
+      end
+    end
   end
 end
