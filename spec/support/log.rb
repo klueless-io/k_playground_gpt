@@ -154,3 +154,4 @@ class LogUtil
 end
 
 Log = LogUtil.new(LogUtil.default_logger)
+L = Log

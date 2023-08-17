@@ -48,6 +48,9 @@ RSpec/PendingWithoutReason:
 RSpec/NoExpectationExample:
   Enabled: false
 
+RSpec/ExampleLength:
+  Max: 25
+
 Layout/LineLength:
   Max: 200
   # Ignores annotate output
