@@ -5,9 +5,7 @@ RSpec.describe KPlaygroundGpt do
     expect(KPlaygroundGpt::VERSION).not_to be_nil
   end
 
-  context 'when running integration test' do
-    pending 'Do not run integration test in CI'
-
+  context 'when making local openai calls', :openai do
     it 'has an OpenAI Environment Variable' do
       expect(ENV.fetch('OPENAI_API_KEY', nil)).not_to be_nil
     end
