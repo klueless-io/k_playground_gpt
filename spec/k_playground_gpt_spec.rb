@@ -5,7 +5,11 @@ RSpec.describe KPlaygroundGpt do
     expect(KPlaygroundGpt::VERSION).not_to be_nil
   end
 
-  xit 'has an OpenAI Environment Variable' do
-    expect(ENV.fetch('OPENAI_API_KEY', nil)).not_to be_nil
-  end, 'Will not run integration test in CI'
+  context 'when running integration test' do
+    pending 'Do not run integration test in CI'
+
+    it 'has an OpenAI Environment Variable' do
+      expect(ENV.fetch('OPENAI_API_KEY', nil)).not_to be_nil
+    end
+  end
 end
