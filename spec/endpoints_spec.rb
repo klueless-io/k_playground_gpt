@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Endpoints', :openai do
-  describe '.models' do
-    let(:client) { OpenAI::Client.new }
+  let(:client) { OpenAI::Client.new }
 
+  describe '.models' do
     describe '#list' do
       it 'returns a list of models (JSON)' do
         response = client.models.list['data'].select { |entry| entry['id'] == 'gpt-3.5-turbo' }
