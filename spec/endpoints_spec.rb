@@ -9,15 +9,18 @@ RSpec.describe 'Endpoints' do
     let(:client) { OpenAI::Client.new }
 
     describe '#list' do
-      it 'returns a list of models (JSON)' do
+      xit 'returns a list of models (JSON)' do
         response = client.models.list
 
         puts JSON.pretty_generate(response)
       end
 
       it 'returns a list of models with just id and type' do
-        response = client.models.list['data'].map { |entry| { id: entry['id'], type: entry['object'] } }
+        response = client
+                   .models.list['data']
+                   .map { |entry| { id: entry['id'], type: entry['object'], fine_tunable: entry['permission'][0]['allow_fine_tuning'] } }
 
+        puts
         tp response.sort_by { |entry| entry[:id] }
       end
     end
