@@ -9,8 +9,8 @@ RSpec.describe 'Endpoints' do
     let(:client) { OpenAI::Client.new }
 
     describe '#list' do
-      xit 'returns a list of models (JSON)' do
-        response = client.models.list
+      it 'returns a list of models (JSON)' do
+        response = client.models.list['data'].select { |entry| entry['id'] == 'gpt-3.5-turbo' }
 
         puts JSON.pretty_generate(response)
       end
@@ -22,6 +22,16 @@ RSpec.describe 'Endpoints' do
 
         puts
         tp response.sort_by { |entry| entry[:id] }
+      end
+    end
+
+    describe '#retrieve' do
+      let(:model_id) { 'gpt-3.5-turbo' }
+
+      it 'returns a model (JSON)' do
+        response = client.models.retrieve(id: model_id)
+
+        puts JSON.pretty_generate(response)
       end
     end
   end
