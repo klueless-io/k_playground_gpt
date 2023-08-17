@@ -3,8 +3,8 @@
 RSpec.describe 'Endpoints' do
   context 'when using models', :openai do
     it 'give me the CI ENV variable' do
-      puts ENV['OPENAI_API_KEY']
-      puts ENV['CI']
+      puts ENV.fetch('OPENAI_API_KEY')
+      puts ENV.fetch('CI')
     end
     # OpenAI.configure do |config|
     #   config.access_token = ENV.fetch('OPENAI_API_KEY')
