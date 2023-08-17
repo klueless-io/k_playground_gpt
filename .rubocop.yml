@@ -42,6 +42,12 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 25
 
+RSpec/PendingWithoutReason:
+  Enabled: false
+
+RSpec/NoExpectationExample:
+  Enabled: false
+
 Layout/LineLength:
   Max: 200
   # Ignores annotate output
