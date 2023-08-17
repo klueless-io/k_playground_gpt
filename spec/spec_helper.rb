@@ -27,3 +27,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+OpenAI.configure do |config|
+  config.access_token = ENV.fetch('OPENAI_API_KEY', 'sk-1234567890')
+end
