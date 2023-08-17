@@ -52,7 +52,7 @@ You can also run `bin/console` for an interactive prompt that will allow you to 
 ```bash
 bin/console
 
-Aaa::Bbb::Program.execute()
+# Aaa::Bbb::Program.execute()
 # => ""
 ```
 
@@ -60,37 +60,9 @@ Aaa::Bbb::Program.execute()
 
 To release a new version, update the version number in `version.rb`, build the gem and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
-```bash
-rake publish
-rake clean
-```
+## To Do/Notes
 
-## Git helpers used by this project
 
-Add the follow helpers to your `alias` file
-
-```bash
-function kcommit()
-{
-  echo 'git add .'
-  git add .
-  echo "git commit -m "$1""
-  git commit -m "$1"
-  echo 'git pull'
-  git pull
-  echo 'git push'
-  git push
-  sleep 3
-  run_id="$(gh run list --limit 1 | grep -Eo "[0-9]{9,11}")"
-  gh run watch $run_id --exit-status && echo "run completed and successful" && git pull && git tag | sort -V | tail -1
-}
-function kchore     () { kcommit "chore: $1" }
-function kdocs      () { kcommit "docs: $1" }
-function kfix       () { kcommit "fix: $1" }
-function kfeat      () { kcommit "feat: $1" }
-function ktest      () { kcommit "test: $1" }
-function krefactor  () { kcommit "refactor: $1" }
-```
 
 ## Contributing
 
