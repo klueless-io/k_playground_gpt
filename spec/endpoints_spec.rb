@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 COMPLETION_MODELS = %w[ada babbage curie davinci].freeze
+CHAT_MODELS = %w[gpt-3.5-turbo gpt-4].freeze
 
 RSpec.describe 'Endpoints', :openai do
   let(:client) { OpenAI::Client.new }
 
   describe '.models' do
     describe '#list' do
+      # https://platform.openai.com/docs/api-reference/models/list
       it 'returns a list of models (JSON)' do
         response = client.models.list['data'].select { |entry| entry['id'] == 'gpt-3.5-turbo' }
 
@@ -24,6 +26,7 @@ RSpec.describe 'Endpoints', :openai do
     end
 
     describe '#retrieve' do
+      # https://platform.openai.com/docs/api-reference/models/retrieve
       let(:model_id) { 'gpt-3.5-turbo' }
 
       it 'returns a model (JSON)' do
@@ -35,6 +38,7 @@ RSpec.describe 'Endpoints', :openai do
   end
 
   describe '.completions' do
+    # https://platform.openai.com/docs/api-reference/completions
     let(:prompt) { 'Once upon a time' }
     let(:max_tokens) { 5 }
 
@@ -60,22 +64,9 @@ RSpec.describe 'Endpoints', :openai do
       end
     end
   end
-  # it 'edit text based on an instruction' do
-  #   edited_text_response = client.edits(
-  #     parameters: {
-  #       model: 'text-davinci-edit-001',
-  #       input:
-  #       'What day of the wek is it?',
-  #       instruction: 'Fix the spelling mistakes'
-  #     }
-  #   )
-  #   edited_text_response = edited_text_response.to_h
 
-  #   puts JSON.pretty_generate(edited_text_response)
-
-  #   expect(edited_text_response).to be_a(Hash)
-  # end
   describe '.edits' do
+    # https://platform.openai.com/docs/api-reference/edits
     let(:model) { 'text-davinci-edit-001' }
     let(:parameters) { { model: model, input: prompt, instruction: instruction } }
 
@@ -120,6 +111,39 @@ RSpec.describe 'Endpoints', :openai do
 
           L.warn 'Edits is a legacy endpoint and will be removed in the future. Use the "Chat" endpoint instead.'
         end
+      end
+    end
+  end
+
+  describe '.chat' do
+    let(:model) { CHAT_MODELS.sample } # gpt-3.5-turbo, gpt-4
+    let(:messages) do
+      [
+        { role: 'system', content: system_prompt },
+        { role: 'user', content: user_prompt }
+      ]
+    end
+    let(:temperature) { 0.7 }
+    let(:parameters) { { model: model, messages: messages, temperature: temperature } }
+
+    context 'when chatting with a YouTube title expert' do
+      let(:system_prompt) { 'You are an expert in YouTube title creation' }
+      let(:user_prompt) { 'I am creating a video on How I used GPT to invent a programming language' }
+
+      it 'returns a text response' do
+        response = client.chat(parameters: parameters)
+        response = response.to_h
+
+        L.kv 'Model', model
+        L.kv 'Messages', messages
+        L.kv 'Temperature', temperature
+        L.block response['choices'][0]['message']['content']
+
+        L.section_heading 'Usage'
+
+        L.kv 'Prompt tokens', response['usage']['prompt_tokens']
+        L.kv 'Completion tokens', response['usage']['completion_tokens']
+        L.kv 'Total tokens', response['usage']['total_tokens']
       end
     end
   end
