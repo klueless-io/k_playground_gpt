@@ -10,12 +10,25 @@ class LogFormatter < Logger::Formatter
   }.freeze
 
   def call(severity, _timestamp, _prog_name, msg)
+    message = format_msg(msg)
+    return format("%<message>s\n", message: message) if suppress_severity?
+
+    format("%<severity>s %<message>s\n", severity: format_severity(severity), message: message)
+  end
+
+  private
+
+  def format_msg(msg)
+    msg.is_a?(String) ? msg : msg.inspect
+  end
+
+  def format_severity(severity)
     color = SEVERITY_TO_COLOR_MAP[severity.upcase]
-    formatted_severity = format("\033[#{color}m%<severity>-5.5s\033[0m", severity: severity)
+    format("\033[#{color}m%<severity>-5.5s\033[0m", severity: severity)
+  end
 
-    formatted_msg = msg.is_a?(String) ? msg : msg.inspect
-
-    format("%<severity>s %<message>s\n", severity: formatted_severity, message: formatted_msg)
+  def suppress_severity?
+    Thread.current[:log_formatter_suppress_severity] || false
   end
 end
 
@@ -139,7 +152,9 @@ class LogUtil
   end
 
   def block(messages, include_line: true, title: nil)
+    Thread.current[:log_formatter_suppress_severity] = true
     multi_lines(LogHelper.block(messages, include_line: include_line, title: title))
+    Thread.current[:log_formatter_suppress_severity] = false
   end
 
   def json(data)
@@ -153,5 +168,4 @@ class LogUtil
   end
 end
 
-Log = LogUtil.new(LogUtil.default_logger)
-L = Log
+L = LogUtil.new(LogUtil.default_logger)
