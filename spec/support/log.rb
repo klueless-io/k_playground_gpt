@@ -168,4 +168,5 @@ class LogUtil
   end
 end
 
-L = LogUtil.new(LogUtil.default_logger)
+Log = LogUtil.new(LogUtil.default_logger)
+L = Log
