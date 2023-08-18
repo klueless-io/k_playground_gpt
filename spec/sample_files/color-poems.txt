@@ -1,0 +1,20 @@
+Red|Roses are red,\nViolets are blue,\nRed is the color of passion,\nAnd it's found in me and you.
+Blue|The sky is blue,\nThe ocean too,\nBlue is the color of peace,\nAnd all things fresh and new.
+Green|Grass is green,\nTrees are too,\nGreen is the color of nature,\nAnd all things that renew.
+Yellow|The sun is yellow,\nFlowers too,\nYellow is the color of happiness,\nAnd all things that bring a new view.
+Orange|Oranges are orange,\nThe sunset too,\nOrange is the color of warmth,\nAnd all things that make us feel new.
+Purple|Lilacs are purple,\nGrapes too,\nPurple is the color of royalty,\nAnd all things that feel true.
+Pink|Cherry blossoms are pink,\nFlamingos too,\nPink is the color of love,\nAnd all things that feel anew.
+Black|The night is black,\nCoal too,\nBlack is the color of mystery,\nAnd all things that bring a new clue.
+White|Snow is white,\nClouds too,\nWhite is the color of purity,\nAnd all things that feel anew.
+Gray|The sky is gray,\nRocks too,\nGray is the color of wisdom,\nAnd all things that bring a new view.
+Brown|Trees are brown,\nEarth too,\nBrown is the color of stability,\nAnd all things that renew.
+Magenta|The flowers are magenta,\nThe sunset too,\nMagenta is the color of joy,\nAnd all things that feel anew.
+Turquoise|The ocean is turquoise,\nThe sky too,\nTurquoise is the color of serenity,\nAnd all things that renew.
+Lavender|Lavender is purple,\nBut softer too,\nLavender is the color of calmness,\nAnd all things that feel new.
+Maroon|Autumn leaves are maroon,\nWine too,\nMaroon is the color of passion,\nAnd all things that renew.
+Navy|The sea is navy,\nThe sky too,\nNavy is the color of depth,\nAnd all things that feel new.
+Olive|Olives are olive,\nForests too,\nOlive is the color of peace,\nAnd all things that renew.
+Cyan|Cyan is the color of the sea,\nThe sky too,\nCyan is the color of tranquility,\nAnd all things that feel new.
+Gold|The sun is gold,\nRings too,\nGold is the color of luxury,\nAnd all things that renew.
+Silver|Silver is the color of the moon,\nCoins too,\nSilver is the color of mystery,\nAnd all things that feel anew.

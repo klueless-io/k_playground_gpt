@@ -174,4 +174,12 @@ RSpec.describe 'Endpoints', :openai do
 
   # Later on we will use this to create a DB driven search engine
   # Using PostgreSql to store embeddings: https://supabase.com/blog/openai-embeddings-postgres-vector
+
+  context 'when JSONL file is needed' do
+    it 'make jsonl file' do
+      text_file = 'spec/sample_files/color-poems.txt'
+      jsonl_file = 'spec/sample_files/color-poems.jsonl'
+      Jsonl.text_file_to_jsonl_file(text_file, jsonl_file)
+    end
+  end
 end
