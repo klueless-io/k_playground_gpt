@@ -240,4 +240,102 @@ RSpec.describe 'Endpoints', :openai do
       end
     end
   end
+
+  # class Finetunes
+  #   def list
+  #     OpenAI::Client.get(path: "/fine-tunes")
+  #   end
+
+  #   def create(parameters: {})
+  #     OpenAI::Client.json_post(path: "/fine-tunes", parameters: parameters)
+  #   end
+
+  #   def retrieve(id:)
+  #     OpenAI::Client.get(path: "/fine-tunes/#{id}")
+  #   end
+
+  #   def cancel(id:)
+  #     OpenAI::Client.multipart_post(path: "/fine-tunes/#{id}/cancel")
+  #   end
+
+  #   def events(id:)
+  #     OpenAI::Client.get(path: "/fine-tunes/#{id}/events")
+  #   end
+
+  #   def delete(fine_tuned_model:)
+  #     if fine_tuned_model.start_with?("ft-")
+  #       raise ArgumentError, "Please give a fine_tuned_model name, not a fine-tune ID"
+  #     end
+
+  #     OpenAI::Client.delete(path: "/models/#{fine_tuned_model}")
+  #   end
+  # end
+
+  describe '.finetunes' do
+    describe '#list' do
+      # https://platform.openai.com/docs/api-reference/fine-tunes/list
+      it 'returns a list of fine-tunes (JSON)' do
+        response = client.finetunes.list['data']
+        L.json(response)
+
+        items = response.map { |item| OpenStruct.new(item) }
+        tp items, :id, :status, :model, :fine_tuned_model, 'training_files.filename', 'training_files.status'
+      end
+    end
+
+    describe '#create' do
+      # https://platform.openai.com/docs/api-reference/fine-tunes/create
+      # https://platform.openai.com/docs/guides/fine-tuning
+      let(:file_id) { 'file-kwFLLjnBExa5UBvqrwDcecz9' }
+      let(:parameters) { { training_file: file_id, model: 'davinci' } } # model: 'gpt-4'
+
+      it 'creates a fine-tune (JSON)' do
+        response = client.finetunes.create(parameters: parameters)
+
+        L.json(response)
+      end
+    end
+
+    context 'with fine-tune id' do
+      let(:fine_tune_id) { 'ft-z07UDvI1zLgnXt1RF5WZ9mdL' }
+
+      describe '#retrieve' do
+        # https://platform.openai.com/docs/api-reference/fine-tunes/retrieve
+        it 'returns a fine-tune (JSON)' do
+          response = client.finetunes.retrieve(id: fine_tune_id)
+
+          L.json(response)
+        end
+      end
+
+      describe '#cancel' do
+        # https://platform.openai.com/docs/api-reference/fine-tunes/cancel
+        it 'cancels a fine-tune (JSON)' do
+          response = client.finetunes.cancel(id: fine_tune_id)
+
+          L.json(response)
+        end
+      end
+
+      describe '#events' do
+        # https://platform.openai.com/docs/api-reference/fine-tunes/events
+        it 'returns a fine-tune (JSON)' do
+          response = client.finetunes.events(id: fine_tune_id)
+
+          L.json(response)
+        end
+      end
+    end
+
+    describe '#delete' do
+      # https://platform.openai.com/docs/api-reference/fine-tunes/delete
+      let(:fine_tuned_model) { 'davinci:ft-print-speak-2023-08-18-08-34-12' }
+
+      it 'deletes a fine-tune (JSON)' do
+        response = client.finetunes.delete(fine_tuned_model: fine_tuned_model)
+
+        L.json(response)
+      end
+    end
+  end
 end
