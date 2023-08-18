@@ -132,7 +132,6 @@ RSpec.describe 'Endpoints', :openai do
 
       it 'returns a text response' do
         response = client.chat(parameters: parameters)
-        response = response.to_h
 
         L.kv 'Model', model
         L.kv 'Messages', messages
@@ -147,4 +146,32 @@ RSpec.describe 'Endpoints', :openai do
       end
     end
   end
+
+  describe '.embeddings' do
+    # https://platform.openai.com/docs/models/embeddings
+    # https://platform.openai.com/docs/guides/embeddings
+    let(:model) { 'text-embedding-ada-002' }
+    let(:input) { 'The food was delicious and the waiter' }
+    let(:parameters) { { model: model, input: input } }
+
+    it 'returns embeddings' do
+      response = client.embeddings(parameters: parameters)
+      L.json(response)
+
+      L.kv 'Model', model
+      L.kv 'Input', input
+      L.block response.to_h['data'][0]['embedding'].first(10), title: 'First 10 Embeddings'
+      L.kv 'Embedding count', response.to_h['data'][0]['embedding'].count
+      # Smaller embedding size. The new embeddings have only 1536 dimensions, one-eighth the size of davinci-001 embeddings,
+      # making the new embeddings more cost effective in working with vector databases.
+
+      L.section_heading 'Usage'
+
+      L.kv 'Prompt tokens', response['usage']['prompt_tokens']
+      L.kv 'Total tokens', response['usage']['total_tokens']
+    end
+  end
+
+  # Later on we will use this to create a DB driven search engine
+  # Using PostgreSql to store embeddings: https://supabase.com/blog/openai-embeddings-postgres-vector
 end
