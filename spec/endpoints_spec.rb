@@ -182,4 +182,62 @@ RSpec.describe 'Endpoints', :openai do
       Jsonl.text_file_to_jsonl_file(text_file, jsonl_file)
     end
   end
+
+  describe '.files' do
+    describe '#list' do
+      # https://platform.openai.com/docs/api-reference/files/list
+      it 'returns a list of files (JSON)' do
+        response = client.files.list['data']
+
+        # L.json(response)
+        tp response
+      end
+    end
+
+    describe '#upload' do
+      let(:file) { 'spec/sample_files/color-poems.jsonl' }
+      # let(:file) { 'spec/sample_files/qa-examples.jsonl' }
+      let(:parameters) { { file: file, purpose: 'fine-tune' } }
+
+      it 'uploads a file (JSON)' do
+        response = client.files.upload(parameters: parameters)
+
+        L.json(response)
+      end
+    end
+
+    describe '#retrieve' do
+      # https://platform.openai.com/docs/api-reference/files/retrieve
+      let(:file_id) { 'file-xOVj8XkQSVutbKZgLKQFzIfI' }
+
+      it 'returns a file (JSON)' do
+        response = client.files.retrieve(id: file_id)
+
+        L.json(response)
+      end
+    end
+
+    describe '#content' do
+      # https://platform.openai.com/docs/api-reference/files/content
+      let(:file_id) { 'file-xOVj8XkQSVutbKZgLKQFzIfI' }
+      # let(:file_id) { 'file-kwFLLjnBExa5UBvqrwDcecz9' }
+
+      it 'returns a file (JSON)' do
+        response = client.files.content(id: file_id)
+
+        L.json(response)
+      end
+    end
+
+    describe '#delete' do
+      # https://platform.openai.com/docs/api-reference/files/delete
+      let(:file_id) { 'file-qLOIww82Sv2Z8YHEF7zVHcOV' }
+
+      it 'deletes a file (JSON)' do
+        response = client.files.delete(id: file_id)
+
+        L.json(response)
+      end
+    end
+  end
 end
