@@ -51,6 +51,9 @@ RSpec/NoExpectationExample:
 RSpec/ExampleLength:
   Max: 25
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
 Layout/LineLength:
   Max: 200
   # Ignores annotate output
