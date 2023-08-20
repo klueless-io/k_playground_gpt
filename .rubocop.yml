@@ -63,6 +63,9 @@ Layout/LineLength:
 Style/OpenStructUse:
   Enabled: false
 
+Metrics/AbcSize:
+  Max: 25
+
 Lint/UnusedMethodArgument:
   AllowUnusedKeywordArguments: true
 

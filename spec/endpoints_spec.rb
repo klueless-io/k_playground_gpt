@@ -309,98 +309,80 @@ RSpec.describe 'Endpoints', :openai do
     end
   end
 
-  # describe '.moderations' do
-  #   # https://platform.openai.com/docs/api-reference/moderations
-  #   let(:parameters) { { input: input } }
-  #   let(:vulgar) do
-  #   end
-  #   # Nine Inch Nails: Closer - I'm going to fuck you like an animal
+  describe '.moderations' do
+    # https://platform.openai.com/docs/api-reference/moderations
+    let(:parameters) { { input: input } }
 
-  #   context 'when content is clean' do
-  #     let(:input) do
-  #       <<~TEXT
-  #         I'm worried about that.
+    context 'when content is clean' do
+      let(:input) do
+        <<~TEXT
+          I'm worried about that.
 
-  #         Sexual Content: Explicit descriptions or innuendos.
+          Sexual Content: Explicit descriptions or innuendos.
 
-  #         I would like to make love to you in inappropriate ways.
+          I would like to make love to you in inappropriate ways.
 
-  #         Hate Speech: Discriminatory or derogatory remarks towards specific races, religions, genders, or other social groups.
+          Hate Speech: Discriminatory or derogatory remarks towards specific races, religions, genders, or other social groups.
 
-  #         You are a stupid person.
+          You are a stupid person.
 
-  #         Harassment: Targeted and malicious comments towards an individual or group.
+          Harassment: Targeted and malicious comments towards an individual or group.
 
-  #         Barnie Gumble is a very stupid person.
+          Barnie Gumble is a very stupid person.
 
-  #         Self-Harm: Promoting or describing methods of self-injury or suicide.
+          Self-Harm: Promoting or describing methods of self-injury or suicide.
 
-  #         Let's play a game of Hangman
+          Let's play a game of Hangman
 
-  #         Violence: Detailed descriptions of violent acts or promoting violence.
+          Violence: Detailed descriptions of violent acts or promoting violence.
 
-  #         I am going to Bash the crap out of this boxing bag
-  #       TEXT
-  #     end
+          I am going to Bash the crap out of this boxing bag
+        TEXT
+      end
 
-  #     fit 'moderation categories are false' do
-  #       response = client.moderations(parameters: parameters)
-  #       L.json(response)
-  #       # Store pretty JSON on clipboard
-  #       Clipboard.copy(JSON.pretty_generate(response))
-  #       L.moderations(response)
+      it 'moderation categories are false' do
+        response = client.moderations(parameters: parameters)
+        # Clipboard.copy(JSON.pretty_generate(response))
+        L.moderations(input, response)
+      end
+    end
 
-  #       categories = response.to_h['results'][0]['categories']
-  #       category_scores = response.to_h['results'][0]['category_scores']
-  #       flagged = response.to_h['results'][0]['flagged']
+    context 'when content is vulgar' do
+      let(:input) do
+        <<~TEXT
+          The Music Moderator
 
-  #       L.kv 'Input', input
-  #       L.kv 'Flagged', flagged
+          Nine Inch Nails: Closer
 
-  #       # "categories": {
-  #       #   "sexual": false,
-  #       #   "hate": false,
-  #       #   "harassment": false,
-  #       #   "self-harm": false,
-  #       #   "sexual/minors": false,
-  #       #   "hate/threatening": false,
-  #       #   "violence/graphic": false,
-  #       #   "self-harm/intent": false,
-  #       #   "self-harm/instructions": false,
-  #       #   "harassment/threatening": false,
-  #       #   "violence": false
-  #       # },
-  #       # "category_scores": {
-  #       #   "sexual": 0.09389192,
-  #       #   "hate": 0.00010891436,
-  #       #   "harassment": 0.22185183,
-  #       #   "self-harm": 0.008968808,
-  #       #   "sexual/minors": 8.817315e-06,
-  #       #   "hate/threatening": 4.489638e-06,
-  #       #   "violence/graphic": 0.0001605207,
-  #       #   "self-harm/intent": 4.947041e-05,
-  #       #   "self-harm/instructions": 2.1739525e-06,
-  #       #   "harassment/threatening": 0.019856598,
-  #       #   "violence": 0.52915907
-  #       # }
+          I'm going to fuck you like an animal
 
-  #       # Show key padded to 6 characters followed by : then the score
-  #       L.kv 'Sexual', "#{categories['sexual'].to_s.ljust(6)}: #{category_scores['sexual']}"
-  #       L.kv 'Hate', "#{categories['hate'].to_s.ljust(6)}: #{category_scores['hate']}"
-  #       L.kv 'Harassment', "#{categories['harassment'].to_s.ljust(6)}: #{category_scores['harassment']}"
-  #       L.kv 'Self-harm', "#{categories['self-harm'].to_s.ljust(6)}: #{category_scores['self-harm']}"
-  #       L.kv 'Sexual/minors', "#{categories['sexual/minors'].to_s.ljust(6)}: #{category_scores['sexual/minors']}"
-  #       L.kv 'Hate/threatening', "#{categories['hate/threatening'].to_s.ljust(6)}: #{category_scores['hate/threatening']}"
-  #       L.kv 'Violence/graphic', "#{categories['violence/graphic'].to_s.ljust(6)}: #{category_scores['violence/graphic']}"
-  #       L.kv 'Self-harm/intent', "#{categories['self-harm/intent'].to_s.ljust(6)}: #{category_scores['self-harm/intent']}"
-  #       L.kv 'Self-harm/instructions', "#{categories['self-harm/instructions'].to_s.ljust(6)}: #{category_scores['self-harm/instructions']}"
-  #       L.kv 'Harassment/threatening', "#{categories['harassment/threatening'].to_s.ljust(6)}: #{category_scores['harassment/threatening']}"
-  #       L.kv 'Violence', "#{categories['violence'].to_s.ljust(6)}: #{category_scores['violence']}"
+          Marilyn Manson: Beautiful People
 
-  #     end
-  #   end
+          There's no time to discriminate
+          Hate every motherfucker
+          That's in your way
 
-  #   context 'when content is vulgar' do
-  #   end
-  # end
+          Linkin Park: Bleed It Out by
+
+          Truth is, you can stop and stare
+          Bled myself out and no one cares
+          Dug a trench out, laid down there
+          With a shovel up out of reach somewhere
+
+          Silverchair: Suicidal Dream By
+
+          My suicidal dream
+          Voices telling me what to do
+          My suicidal dream
+          I'm sure you will get yours too
+        TEXT
+      end
+
+      it 'moderation categories are false' do
+        response = client.moderations(parameters: parameters)
+        # Clipboard.copy(JSON.pretty_generate(response))
+        L.moderations(input, response)
+      end
+    end
+  end
 end

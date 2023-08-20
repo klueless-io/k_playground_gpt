@@ -1,30 +1,27 @@
 # frozen_string_literal: true
 
+require_relative 'helpers'
+
 module LogUsecases
-  def moderations(data)
-    categories = data['categories']
-    category_scores = data['category_scores']
+  include ::Helpers
+
+  def moderations(input, moderation_response)
+    categories = moderation_response['results'].first['categories']
+    category_scores = moderation_response['results'].first['category_scores']
     categories_list = [
       'sexual', 'hate', 'harassment', 'self-harm', 'sexual/minors', 'hate/threatening',
       'violence/graphic', 'self-harm/intent', 'self-harm/instructions',
       'harassment/threatening', 'violence'
     ]
 
+    L.kv 'Input', input
+    L.kv 'Flagged', moderation_response['results'].first['flagged']
+
     categories_list.each do |category|
       formatted_key = category.split('/').map(&:capitalize).join(' ')
-      L.kv formatted_key, "#{categories[category].to_s.ljust(6)}: #{category_scores[category]}"
+      label = categories[category].to_s.ljust(6)
+      value = format('%.10f', category_scores[category])
+      L.kv formatted_key, "#{label}: #{value}"
     end
-
-    # L.kv 'Sexual', "#{categories['sexual'].to_s.ljust(6)}: #{category_scores['sexual']}"
-    # L.kv 'Hate', "#{categories['hate'].to_s.ljust(6)}: #{category_scores['hate']}"
-    # L.kv 'Harassment', "#{categories['harassment'].to_s.ljust(6)}: #{category_scores['harassment']}"
-    # L.kv 'Self-harm', "#{categories['self-harm'].to_s.ljust(6)}: #{category_scores['self-harm']}"
-    # L.kv 'Sexual/minors', "#{categories['sexual/minors'].to_s.ljust(6)}: #{category_scores['sexual/minors']}"
-    # L.kv 'Hate/threatening', "#{categories['hate/threatening'].to_s.ljust(6)}: #{category_scores['hate/threatening']}"
-    # L.kv 'Violence/graphic', "#{categories['violence/graphic'].to_s.ljust(6)}: #{category_scores['violence/graphic']}"
-    # L.kv 'Self-harm/intent', "#{categories['self-harm/intent'].to_s.ljust(6)}: #{category_scores['self-harm/intent']}"
-    # L.kv 'Self-harm/instructions', "#{categories['self-harm/instructions'].to_s.ljust(6)}: #{category_scores['self-harm/instructions']}"
-    # L.kv 'Harassment/threatening', "#{categories['harassment/threatening'].to_s.ljust(6)}: #{category_scores['harassment/threatening']}"
-    # L.kv 'Violence', "#{categories['violence'].to_s.ljust(6)}: #{category_scores['violence']}"
   end
 end
