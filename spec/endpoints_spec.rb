@@ -71,8 +71,8 @@ RSpec.describe 'Endpoints', :openai do
     let(:parameters) { { model: model, input: prompt, instruction: instruction } }
 
     context 'when fixing spelling mistakes' do
-      let(:prompt) { 'What day of the wek is it?' }
-      let(:instruction) { 'Fix the spelling mistakes' }
+      let(:prompt) { 'What day of the wek is it? If too bouys were talking to gurls' }
+      let(:instruction) { 'Fix the spelling and grammar mistakes' }
 
       it 'returns edited response' do
         response = client.edits(parameters: parameters)
