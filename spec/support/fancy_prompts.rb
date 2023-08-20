@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FancyPrompts
   def self.documentary_titles(mamals)
     client = OpenAI::Client.new
@@ -13,7 +15,7 @@ class FancyPrompts
         max_tokens: 128
       }
       response = client.chat(parameters: parameters)
-      
+
       # L.kv 'Model', model
       L.block response['choices'][0]['message']['content'], title: user_prompt
     end
