@@ -385,4 +385,86 @@ RSpec.describe 'Endpoints', :openai do
       end
     end
   end
+
+  describe '.images' do
+    describe '#generate' do
+      # https://platform.openai.com/docs/api-reference/images/create
+      # let(:prompt) { 'A baby sea otter cooking pasta wearing a hat of some sort' }
+      # let(:parameters) { { prompt: prompt, size: '256x256' } }
+      let(:prompt) { 'daft punk landscape' }
+      let(:parameters) { { prompt: prompt, size: '1024x1024' } }
+
+      it 'generate an image using DALL·E' do
+        response = client.images.generate(parameters: parameters)
+        L.json(response)
+
+        url = response['data'].first['url']
+        L.kv 'Prompt', prompt
+        L.kv 'URL', url
+
+        Util.open_in_chrome(url)
+
+        relative_path, absolute_path = Util.save_image_from_url(prompt, url)
+
+        L.kv 'Relative Path', relative_path
+        L.kv 'Absolute Path', absolute_path
+
+        Util.open_in_chrome("file://#{absolute_path}")
+      end
+    end
+
+    # using
+    # spec/sample_files/dale-images/daft_punk_landscape.png
+    # spec/sample_files/dale-images/mask-shapes.png
+
+    describe '#edit' do
+      # https://platform.openai.com/docs/api-reference/images/createEdit
+      let(:prompt) { 'ocean' }
+      let(:image) { 'spec/sample_files/dale-images/appycast-white.png' }
+      let(:mask) { 'spec/sample_files/dale-images/appycast-mask.png' }
+      let(:parameters) { { prompt: prompt, image: image, mask: mask } }
+
+      it 'edits an image using DALL·E' do
+        response = client.images.edit(parameters: parameters)
+        # L.json(response)
+        url = response['data'].first['url']
+
+        L.kv 'Prompt', prompt
+        L.kv 'URL', url
+
+        relative_path, absolute_path = Util.save_image_from_url("appycast-#{prompt}", url)
+
+        L.kv 'Relative Path', relative_path
+        L.kv 'Absolute Path', absolute_path
+
+        Util.open_in_chrome("file://#{absolute_path}")
+      end
+    end
+
+    describe '#variations' do
+      # https://platform.openai.com/docs/api-reference/images/createVariation
+
+      let(:image) { 'spec/sample_files/dale-images/appycast-white.png' }
+      let(:n) { 2 }
+      let(:size) { '1024x1024' }
+      let(:parameters) { { image: image, n: n, size: size } }
+
+      it 'generates image variations using DALL·E' do
+        response = client.images.variations(parameters: parameters)
+        L.json(response)
+
+        response['data'].each_with_index do |item, i|
+          url = item['url']
+          L.kv 'URL', url
+
+          relative_path, absolute_path = Util.save_image_from_url("appycast-variation-#{i}", url)
+
+          L.kv 'Relative Path', relative_path
+          L.kv 'Absolute Path', absolute_path
+
+          Util.open_in_chrome("file://#{absolute_path}")
+        end
+      end
+    end
+  end
 end
