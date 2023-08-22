@@ -413,12 +413,9 @@ RSpec.describe 'Endpoints', :openai do
       end
     end
 
-    # using
-    # spec/sample_files/dale-images/daft_punk_landscape.png
-    # spec/sample_files/dale-images/mask-shapes.png
-
     describe '#edit' do
       # https://platform.openai.com/docs/api-reference/images/createEdit
+      # https://www.canva.com/design/DAFsIA9Jplw/caJX1ouqiUDSD_ctStnfQw/edit
       let(:prompt) { 'ocean' }
       let(:image) { 'spec/sample_files/dale-images/appycast-white.png' }
       let(:mask) { 'spec/sample_files/dale-images/appycast-mask.png' }
@@ -464,6 +461,25 @@ RSpec.describe 'Endpoints', :openai do
 
           Util.open_in_chrome("file://#{absolute_path}")
         end
+      end
+    end
+  end
+
+  describe '.audio' do
+    describe '#transcriptions' do
+      # https://platform.openai.com/docs/api-reference/audio/createTranscription
+
+      let(:file) { 'spec/sample_files/audio/01-introduction.mp3' }
+      let(:model) { 'whisper-1' }
+      let(:response_format) { 'json' }
+      # let(:response_format) { %w[json text srt verbose_json vtt].sample }
+      # let(:response_format) { 'srt' }
+      let(:parameters) { { file: File.open(file, 'rb'), model: model, response_format: response_format, prompt: 'say it like I am 5 years old' } }
+
+      it 'transcribes audio' do
+        L.kv 'Response Format', response_format
+        response = client.audio.transcribe(parameters: parameters)
+        L.json(response)
       end
     end
   end
