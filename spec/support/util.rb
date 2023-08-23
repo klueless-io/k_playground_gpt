@@ -4,10 +4,7 @@ require 'net/http'
 require 'fileutils'
 require 'uri'
 
-require_relative 'data_helper'
-
 class Util
-  extend DataHelper
 
   USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
 
@@ -48,6 +45,25 @@ class Util
       end
     end
 
+    def deep_symbolize_keys(value)
+      case value
+      when Array
+        value.map { |v| deep_symbolize_keys(v) }
+      when Hash
+        value.each_with_object({}) do |(key, v), result|
+          new_key = begin
+            key.to_sym
+          rescue StandardError
+            key
+          end
+          new_value = deep_symbolize_keys(v)
+          result[new_key] = new_value
+        end
+      else
+        value
+      end
+    end
+  
     # {
     #   info: {
     #     status: :ok,                # or :error

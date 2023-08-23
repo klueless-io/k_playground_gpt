@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'data_helper'
-
 module LogUsecases
-  include DataHelper
 
   def moderations(input, moderation_response)
     categories = moderation_response['results'].first['categories']
