@@ -473,7 +473,7 @@ RSpec.describe 'Endpoints', :openai do
       let(:model) { 'whisper-1' }
       let(:response_format) { 'json' }
       # let(:response_format) { %w[json text srt verbose_json vtt].sample }
-      # let(:response_format) { 'srt' }
+      # let(:response_format) { 'text' }
       let(:parameters) { { file: File.open(file, 'rb'), model: model, response_format: response_format, prompt: 'say it like I am 5 years old' } }
 
       it 'transcribes audio' do
@@ -483,4 +483,148 @@ RSpec.describe 'Endpoints', :openai do
       end
     end
   end
+
+  describe '.functions' do
+    let(:model) { 'gpt-3.5-turbo-0613' }
+    let(:messages) do
+      [
+        {
+          role: 'user',
+          content: 'What is the weather like in Chiang Mai, Thailand?'
+        }
+      ]
+    end
+    let(:function_call) { 'auto' } # auto, none
+    let(:functions) do
+      [
+        {
+          name: 'get_current_weather',
+          description: 'Get the current weather in a given location',
+          parameters: {
+            type: :object,
+            properties: {
+              location: {
+                type: :string,
+                description: 'The city and country, e.g. Sy ddney, Australia'
+              },
+              city: {
+                type: :string,
+                description: 'The city, e.g. Sydney'
+              },
+              country: {
+                type: :string,
+                description: 'The country, e.g. Australia'
+              },
+              unit: {
+                type: 'string',
+                enum: %w[celsius fahrenheit],
+                description: 'The unit of temperature to use, should default to celsius if not supplied'
+              }
+            }
+          }
+        }
+      ]
+    end
+
+    it 'calls the function with the correct arguments' do
+      request1 = { model: model, messages: messages, functions: functions, function_call: function_call }
+      response = client.chat(parameters: request1)
+      L.json(response)
+      L.function(response, model, messages)
+
+      message = response.dig('choices', 0, 'message')
+
+      function_value = call_function(message)
+
+      if function_value[:info][:status] == :ok
+        data = function_value[:data]
+
+        new_messages = messages.dup
+        new_messages << response['choices'][0]['message']
+        new_messages << { role: 'function', name: 'get_current_weather', content: data.to_s }
+
+        request2 = { model: model, messages: new_messages }
+        response = client.chat(parameters: request2)
+
+        L.block response['choices'][0]['message']['content']
+      end
+    end
+  end
+end
+
+def call_function(message)
+  return nil unless message['role'] == 'assistant' && message['function_call']
+
+  function_name = message.dig('function_call', 'name')
+  args = Util.parse_json(message.dig('function_call', 'arguments'), as: :symbolize)
+
+  return get_current_weather(**args) if function_name == 'get_current_weather'
+
+  nil
+end
+
+def get_current_weather(**args)
+  clean_args = clean_current_weather_args(**args)
+
+  location = location_lookup(clean_args.slice(:location, :city, :country))
+
+  weather_lookup(long: location[:data][:longitude], lat: location[:data][:latitude])
+end
+
+def clean_current_weather_args(**args)
+  args[:location] = args[:location]
+  args[:city] = args[:city] || args[:location]
+  args[:country] = args[:country] || 'Australia'
+  args[:unit] = args[:unit] || 'celsius'
+  args
+end
+
+def location_lookup(location: nil, city: nil, country: nil)
+  city ||= location
+  country ||= 'Australia'
+  api_key = ENV.fetch('API_NINJA_KEY', nil)
+  api_url = "https://api.api-ninjas.com/v1/geocoding?city=#{city}&country=#{country}"
+
+  uri = URI(api_url)
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+
+  request = Net::HTTP::Get.new(uri)
+  request['X-Api-Key'] = api_key
+
+  response = http.request(request)
+
+  return parse_location(response.body) if response.code.to_i == 200
+
+  Util.wrap_response(nil, status: :error, code: response.code, message: response.body)
+end
+
+def parse_location(body)
+  locations = Util.parse_json(body, as: :symbolize)
+  L.json(locations)
+  Util.wrap_response(locations.first)
+end
+
+def weather_lookup(long:, lat:)
+  api_key = ENV.fetch('API_NINJA_KEY', nil)
+  api_url = "https://api.api-ninjas.com/v1/weather?lat=#{lat}&lon=#{long}"
+
+  uri = URI(api_url)
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+
+  request = Net::HTTP::Get.new(uri)
+  request['X-Api-Key'] = api_key
+
+  response = http.request(request)
+
+  return parse_weather(response.body) if response.code.to_i == 200
+
+  Util.wrap_response(nil, status: :error, code: response.code, message: response.body)
+end
+
+def parse_weather(body)
+  weather = Util.parse_json(body, as: :symbolize)
+
+  Util.wrap_response(weather)
 end

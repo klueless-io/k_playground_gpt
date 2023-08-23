@@ -9,6 +9,8 @@ SimpleCov.start
 require 'clipboard'
 require 'table_print'
 require 'k_playground_gpt'
+# require 'net/http'
+# require 'uri'
 
 require 'dotenv'
 ENV.delete('OPENAI_API_KEY')
