@@ -4,9 +4,19 @@ module KPlaygroundGpt
   # https://chat.openai.com/c/0cd0f0f2-f798-427d-9160-0feea8a7d37d
   # Usage:
   #  conversation = KPlaygroundGpt::Chatbot
-  #   .start
+  #   .start(store: KPlaygroundGpt::Storage::FileStore.new('tmp/xmen.json'))
   #   .system_prompt('You are an expert in writing code for ChatGPT chatbots using ruby and rspec.')
   #   .chat
+  #
+  #  L.debug_chatbot chatbot, include_json: true
+  #
+  # KPlaygroundGpt::Chatbot
+  #   .start(store: :save_last_file)
+  #   .system_prompt('You are an expert in YouTube titles. Please wait for my question!')
+  #   .bot("Sure, I'm here to help you with YouTube titles. What would you like to know?")
+  #   .ask('Can you give me 10 YouTube titles for a video creating GPT Chatbots in Ruby?')
+  #   .chat
+  #
   #  L.debug_chatbot chatbot, include_json: true
   class Chatbot
     extend Forwardable
