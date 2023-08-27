@@ -7,7 +7,7 @@ module KPlaygroundGpt
   #   .start
   #   .system_prompt('You are an expert in writing code for ChatGPT chatbots using ruby and rspec.')
   #   .chat
-  #  puts conversation.content # => "some content"
+  #  L.debug_chatbot chatbot, include_json: true
   class Chatbot
     extend Forwardable
 
