@@ -16,7 +16,11 @@ module KPlaygroundGpt
       end
 
       def write(conversation)
-        File.write(filename, conversation.to_json)
+        File.write(filename, conversation)
+      end
+
+      def open_in_editor
+        system("open #{filename}")
       end
     end
   end

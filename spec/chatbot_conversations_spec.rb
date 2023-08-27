@@ -119,18 +119,28 @@ RSpec.describe KPlaygroundGpt::Chatbot, :openai do
   end
 
   context 'when ChatBot stores chat history in a file' do
-    let(:chatbot) do
-      described_class
-        .start(store: KPlaygroundGpt::Storage::FileStore.new('tmp/xmen.json'))
-        .system_prompt(system_prompt)
-    end
-    let(:system_prompt) { 'You are an expert in YouTube titles. Please wait for my question!' }
+    it 'stores the chat history in a configured file' do
+      chatbot = described_class
+                .start(store: KPlaygroundGpt::Storage::FileStore.new('tmp/xmen.json'))
+                .system_prompt('You are an expert in YouTube titles. Please wait for my question!')
+                .bot("Sure, I'm here to help you with YouTube titles. What would you like to know?")
+                .ask('Can you give me 10 YouTube titles for a video creating GPT Chatbots in Ruby?')
+                .chat
 
-    it 'stores the chat history in a file' do
-      chatbot
-        .bot("Sure, I'm here to help you with YouTube titles. What would you like to know?")
-        .ask('Can you give me 10 YouTube titles for a video creating GPT Chatbots in Ruby?')
-        .chat
+      # chatbot.store.open
+
+      L.debug_chatbot chatbot, include_json: true
+    end
+
+    it 'stores the chat history in the default file' do
+      chatbot = described_class
+                .start(store: :save_default_file)
+                .system_prompt('You are an expert in YouTube titles. Please wait for my question!')
+                .bot("Sure, I'm here to help you with YouTube titles. What would you like to know?")
+                .ask('Can you give me 10 YouTube titles for a video creating GPT Chatbots in Ruby?')
+                .chat
+
+      chatbot.store.open_in_editor
 
       L.debug_chatbot chatbot, include_json: true
     end

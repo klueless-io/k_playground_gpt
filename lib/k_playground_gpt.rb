@@ -9,6 +9,7 @@ require_relative 'k_playground_gpt/conversation'
 require_relative 'k_playground_gpt/message'
 require_relative 'k_playground_gpt/storage/base_store'
 require_relative 'k_playground_gpt/storage/file_store'
+require_relative 'k_playground_gpt/storage/store_factory'
 
 # The main module for the gem
 

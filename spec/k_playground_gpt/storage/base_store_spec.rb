@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# spec/k_playground_gpt/storage/base_storage_spec.rb
-
-require 'k_playground_gpt/storage/base_store'
-
 RSpec.describe KPlaygroundGpt::Storage::BaseStore do
   subject(:store) { described_class.new }
 

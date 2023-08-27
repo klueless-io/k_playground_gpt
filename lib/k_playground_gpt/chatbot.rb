@@ -60,8 +60,7 @@ module KPlaygroundGpt
       @frequency_penalty = options[:frequency_penalty]
       @presence_penalty = options[:presence_penalty]
 
-      @store = options[:store]
-
+      @store = Storage::StoreFactory.build(options[:store])
       @conversation = KPlaygroundGpt::Conversation.new
     end
 

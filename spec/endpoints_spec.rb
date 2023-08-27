@@ -20,7 +20,6 @@ RSpec.describe 'Endpoints', :openai do
                    .models.list['data']
                    .map { |entry| { id: entry['id'], type: entry['object'], fine_tunable: entry['permission'][0]['allow_fine_tuning'] } }
 
-        puts
         tp response.sort_by { |entry| entry[:id] }
       end
     end
@@ -402,14 +401,14 @@ RSpec.describe 'Endpoints', :openai do
         L.kv 'Prompt', prompt
         L.kv 'URL', url
 
-        Util.open_in_chrome(url)
+        # Util.open_in_chrome(url)
 
         relative_path, absolute_path = Util.save_image_from_url(prompt, url)
 
         L.kv 'Relative Path', relative_path
         L.kv 'Absolute Path', absolute_path
 
-        Util.open_in_chrome("file://#{absolute_path}")
+        # Util.open_in_chrome("file://#{absolute_path}")
       end
     end
 
@@ -434,7 +433,7 @@ RSpec.describe 'Endpoints', :openai do
         L.kv 'Relative Path', relative_path
         L.kv 'Absolute Path', absolute_path
 
-        Util.open_in_chrome("file://#{absolute_path}")
+        # Util.open_in_chrome("file://#{absolute_path}")
       end
     end
 
@@ -459,7 +458,7 @@ RSpec.describe 'Endpoints', :openai do
           L.kv 'Relative Path', relative_path
           L.kv 'Absolute Path', absolute_path
 
-          Util.open_in_chrome("file://#{absolute_path}")
+          # Util.open_in_chrome("file://#{absolute_path}")
         end
       end
     end
@@ -568,7 +567,9 @@ def get_current_weather(**args)
 
   location = location_lookup(clean_args.slice(:location, :city, :country))
 
-  weather_lookup(long: location[:data][:longitude], lat: location[:data][:latitude])
+  return weather_lookup(long: location[:data][:longitude], lat: location[:data][:latitude]) if location[:data]
+
+  puts "Location not found: #{clean_args}"
 end
 
 def clean_current_weather_args(**args)
