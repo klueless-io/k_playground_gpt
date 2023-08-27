@@ -51,6 +51,12 @@ RSpec/NoExpectationExample:
 RSpec/ExampleLength:
   Max: 25
 
+RSpec/MultipleExpectations:
+  Max: 5
+
+Naming/AccessorMethodName:
+  Enabled: false
+
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 

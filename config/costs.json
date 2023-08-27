@@ -1,0 +1,165 @@
+[
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "text-ada-001",
+    "combined": "0.0004",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "gpt-3.5-turbo-instruct"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "text-babbage-001",
+    "combined": "0.0005",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "gpt-3.5-turbo-instruct"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "text-curie-001",
+    "combined": "0.0020",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "gpt-3.5-turbo-instruct"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "text-davinci-001",
+    "combined": "0.0200",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "gpt-3.5-turbo-instruct"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "text-davinci-002",
+    "combined": "0.0200",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "gpt-3.5-turbo-instruct"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "text-davinci-003",
+    "combined": "0.0200",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "gpt-3.5-turbo-instruct"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "ada",
+    "combined": "0.0004",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "babbage-002"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "babbage",
+    "combined": "0.0005",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "babbage-002"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "curie",
+    "combined": "0.0020",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "davinci-002"
+  },
+  {
+    "shutdown_date": "2024-01-04",
+    "model": "davinci",
+    "combined": "0.0200",
+    "input": "",
+    "output": "",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": "davinci-002"
+  },
+  {
+    "model": "GPT-4-8K context",
+    "combined": "",
+    "input": "0.03",
+    "output": "0.06",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": ""
+  },
+  {
+    "model": "GPT-4-32K context",
+    "combined": "",
+    "input": "0.06",
+    "output": "0.12",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": ""
+  },
+  {
+    "model": "GPT-3.5 Turbo-4K context",
+    "combined": "",
+    "input": "0.0015",
+    "output": "0.002",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": ""
+  },
+  {
+    "model": "GPT-3.5 Turbo-16K context",
+    "combined": "",
+    "input": "0.003",
+    "output": "0.004",
+    "training": "",
+    "unit": "1K tokens",
+    "recommended_replacement": ""
+  },
+  {
+    "model": "babbage-002",
+    "combined": "0.0004",
+    "input": "0.0016",
+    "output": "0.0016",
+    "training": "0.0016",
+    "unit": "1K tokens",
+    "recommended_replacement": ""
+  },
+  {
+    "model": "davinci-002",
+    "combined": "",
+    "input": "0.0060",
+    "output": "0.0120",
+    "training": "0.0120",
+    "unit": "1K tokens",
+    "recommended_replacement": ""
+  },
+  {
+    "model": "GPT-3.5 Turbo",
+    "combined": "",
+    "input": "0.0080",
+    "output": "0.0120",
+    "training": "0.0160",
+    "unit": "1K tokens",
+    "recommended_replacement": ""
+  }
+]

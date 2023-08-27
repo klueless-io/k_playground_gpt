@@ -5,7 +5,6 @@ require 'fileutils'
 require 'uri'
 
 class Util
-
   USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
 
   class << self
@@ -63,7 +62,7 @@ class Util
         value
       end
     end
-  
+
     # {
     #   info: {
     #     status: :ok,                # or :error

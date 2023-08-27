@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module LogUsecases
-
   def moderations(input, moderation_response)
     categories = moderation_response['results'].first['categories']
     category_scores = moderation_response['results'].first['category_scores']
@@ -20,6 +19,13 @@ module LogUsecases
       value = format('%.10f', category_scores[category])
       L.kv formatted_key, "#{label}: #{value}"
     end
+  end
+
+  def detailed_header(response)
+    L.kv 'Model', response['model']
+    L.kv 'Id', response['id']
+    L.kv 'Object', response['object']
+    L.kv 'Created', response['created']
   end
 
   def function(response, model, messages)
@@ -48,4 +54,43 @@ module LogUsecases
     L.section_heading 'Data not available'
     L.kv 'Reason', "The #{key} data is not available in this response."
   end
+
+  def conversation(chat)
+    L.section_heading 'Chat Conversation'
+
+    L.warn chat.system_prompt
+    L.block chat.content
+    L.kv 'Model requested', chat.model
+    L.kv 'Temperature', chat.temperature
+    L.detailed_header chat.response
+    L.usage chat.response
+    L.kv 'Prompt tokens estimated', chat.rough_token_usage
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def debug_chatbot(chatbot, include_json: false)
+    L.json chatbot.chat_response if include_json
+    L.heading 'Chatbot Debug'
+
+    L.section_heading 'Parameters'
+    L.kv 'Model', chatbot.model
+    L.kv 'Temperature', chatbot.temperature
+    L.kv 'Max tokens', chatbot.max_tokens
+    L.kv 'Top P', chatbot.top_p
+    L.kv 'Frequency penalty', chatbot.frequency_penalty
+    L.kv 'Presence penalty', chatbot.presence_penalty
+
+    L.section_heading 'Response Meta'
+    L.detailed_header chatbot.response
+    L.usage chatbot.response
+
+    L.section_heading 'Message Stream'
+    L.kv 'System prompt?', chatbot.system_prompt?
+
+    L.warn chatbot.system_prompt if chatbot.system_prompt?
+    tp chatbot.messages, :role, { content: { width: 80 } }
+
+    L.block chatbot.content, title: 'Chatbot Response'
+  end
+  # rubocop:enable Metrics/AbcSize
 end

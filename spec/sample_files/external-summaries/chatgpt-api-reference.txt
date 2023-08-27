@@ -1,0 +1,44 @@
+Source: https://platform.openai.com/docs/guides/gpt
+Chat used to create this document: https://chat.openai.com/c/60beb6b7-ef33-44ad-8300-9ea4f11b6c15
+
+
+Great! Here's the combined and deduplicated summary:
+
+Capabilities and Interactions:
+
+GPT models like gpt-4 and gpt-3.5-turbo can draft documents, write code, answer knowledge base questions, analyze texts, and more. They can also tutor in subjects, translate languages, simulate game characters, and provide a natural language interface for software.
+Interaction with GPT models is via the OpenAI API. The OpenAI playground offers an experimental space, and if uncertain about which model to use, gpt-3.5-turbo or gpt-4 are recommended.
+Chat Model Structure:
+
+Chat models accept a list of messages as input and produce a model-generated message as output. Each message has a 'role' (system, user, or assistant) and 'content'.
+Conversations usually begin with a system message, guiding the assistant's behavior. User messages give specific instructions. Keeping a history of the conversation is crucial, as the models don't retain past requests.
+Function Calls in Chat API:
+
+Some GPT models can generate JSON outputs for function calls, providing structured data for applications like chatbots or converting natural language into API calls.
+Function calls can be determined by the model, forced with a specific name, or disabled. There are potential risks with hallucinated outputs, like unauthorized function calls. System messages can control these outputs.
+Completions API vs. Chat Completions API:
+
+The completions API, updated in July 2023, uses a freeform text string (prompt) as input, distinct from the chat completions API. The chat completions API can emulate the completions API and vice versa.
+gpt-4 is ideal for intricate tasks due to its adherence to instructions, reduced hallucinations, and larger context window. However, gpt-3.5-turbo is more cost-effective and faster.
+Best Practices and Token Understanding:
+
+Effective interaction with GPTs, known as "prompt engineering", is essential. It involves crafting the right prompts and designing systems.
+Tokens in language models influence the cost, time, and feasibility of API calls. Tokens can range from one character to entire words.
+OpenAI’s tiktoken Python library provides a way to count tokens in a text string without making an API call.
+Frequency and Presence Penalties:
+
+Penalties in the Chat completions API and Legacy Completions API reduce repetition. They modify the logits directly, with given formulas and coefficient values to control repetition.
+API Behavior and Fine-Tuning:
+
+The API is non-deterministic by default. Adjusting the temperature parameter can influence output consistency and creativity.
+Fine-tuning is available for models like gpt-3.5-turbo, babbage-002, and davinci-002.
+Data Retention and Moderation:
+
+As of March 1st, 2023, API data is retained for 30 days but isn't used to improve the models. Some endpoints even offer zero retention.
+A moderation layer can be added to the outputs of the Chat API using OpenAI’s moderation guide.
+ChatGPT Vs. OpenAI API:
+
+ChatGPT interfaces with the models in the OpenAI API, offering features like integrated browsing, code execution, and plugins. Conversely, the OpenAI API provides more flexibility than ChatGPT.
+Resources:
+
+The OpenAI Cookbook provides examples and resources, including function calling demonstrations. The pricing page details the cost for different models and token types.
