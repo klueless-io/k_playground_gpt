@@ -19,6 +19,7 @@ group :development, :test do
   gem 'clipboard', '~> 1.3.0'
   gem 'dotenv'
   gem 'table_print', '~> 1.5.7'
+  gem 'rubyzip', '~> 2.3.0'
 end
 
 group :test do

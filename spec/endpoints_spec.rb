@@ -484,12 +484,18 @@ RSpec.describe 'Endpoints', :openai do
   end
 
   describe '.functions' do
+    expert = <<~EXPERT
+      You will display the weather for a given location and include the date
+      You will give me some tourist information about the location
+      You will provide list of useful statitics based of weather data provided
+    EXPERT
+
     let(:model) { 'gpt-3.5-turbo-0613' }
     let(:messages) do
       [
         {
           role: 'user',
-          content: 'What is the weather like in Chiang Mai, Thailand?'
+          content: "#{expert}What is the weather like in Brisbane, Australia?"
         }
       ]
     end
@@ -555,6 +561,7 @@ def call_function(message)
   return nil unless message['role'] == 'assistant' && message['function_call']
 
   function_name = message.dig('function_call', 'name')
+
   args = Util.parse_json(message.dig('function_call', 'arguments'), as: :symbolize)
 
   return get_current_weather(**args) if function_name == 'get_current_weather'
@@ -585,7 +592,6 @@ def location_lookup(location: nil, city: nil, country: nil)
   country ||= 'Australia'
   api_key = ENV.fetch('API_NINJA_KEY', nil)
   api_url = "https://api.api-ninjas.com/v1/geocoding?city=#{city}&country=#{country}"
-
   uri = URI(api_url)
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
@@ -626,6 +632,7 @@ end
 
 def parse_weather(body)
   weather = Util.parse_json(body, as: :symbolize)
+  weather[:today_date] = DateTime.now.strftime("%d/%m/%Y %H:%M")
 
   Util.wrap_response(weather)
 end

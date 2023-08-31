@@ -47,3 +47,6 @@ Gemfile.lock
 .byebug_history
 
 .env.development
+
+.DS_Store
+.last-chat.json

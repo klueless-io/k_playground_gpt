@@ -104,7 +104,11 @@ module KPlaygroundGpt
     end
 
     def content
-      response.dig('choices', 0, 'message', 'content')
+      response&.dig('choices', 0, 'message', 'content')
+    end
+
+    def finish_reason
+      response&.dig('choices', 0, 'finish_reason')
     end
 
     def estimate_token_usage

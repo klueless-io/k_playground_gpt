@@ -22,10 +22,13 @@ module LogUsecases
   end
 
   def detailed_header(response)
+    return if response.nil?
     L.kv 'Model', response['model']
     L.kv 'Id', response['id']
     L.kv 'Object', response['object']
     L.kv 'Created', response['created']
+    L.kv 'Finished Reason', response['choices'][0]['finish_reason']
+    # L.kv 'Content', response['choices'][0]['message']['content'][0..100]
   end
 
   def function(response, model, messages)
@@ -40,6 +43,8 @@ module LogUsecases
   end
 
   def usage(response)
+    return if response.nil?
+
     usage = response['usage']
 
     return data_not_available('usage') if usage.nil?
@@ -87,7 +92,7 @@ module LogUsecases
     L.section_heading 'Message Stream'
     L.kv 'System prompt?', chatbot.system_prompt?
 
-    L.warn chatbot.system_prompt if chatbot.system_prompt?
+    L.warn chatbot.conversation.system_prompt.content if chatbot.conversation.system_prompt?
     tp chatbot.messages, :role, { content: { width: 80 } }
 
     L.block chatbot.content, title: 'Chatbot Response'

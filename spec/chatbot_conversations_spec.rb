@@ -145,4 +145,8 @@ RSpec.describe KPlaygroundGpt::Chatbot, :openai do
       L.debug_chatbot chatbot, include_json: true
     end
   end
+
+  # Potato Prompt: https://www.youtube.com/watch?v=5otmxZGyj-w
+  # Perfect Prompt Formula: https://www.youtube.com/watch?v=jC4v5AS4RIM
+  # Proof Read: https://chat.openai.com/c/1c690acc-a2fd-4f1c-b48e-ee45b5cf72c4
 end
